@@ -24,7 +24,7 @@
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <i class="fas fa-bars"></i>
             </button>
 
             <div class="navbar-collapse collapse" id="navbarNav">
@@ -101,7 +101,7 @@
         const pages = document.querySelector('.pages');
 
         const createElement =(data)=>{
-            const element = `<div class="item col-sm-12 col-lg-4 col-md-6">
+            const element = `<div class="item col-sm-12 col-lg-4 col-md-6 my-2">
                 <img src="https://logos-world.net/wp-content/uploads/2020/02/Canva-Logo.png">
                 <span>${data.name}</span>
                 <a target="_blank" href='${data.link}'><button>Link</button></a>
