@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azizov</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-collapse">
+        <div class="container">
+            <a href="#" class="navbar-brand">
+                <img src="./assets/logo.png" width="36" height="24">
+                AzDev
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <span>Əlavə Et</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <div class="row pages">
+            
+        </div>
+    </div>
+
+<a href="" target="_blank"></a>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Link əlavə et</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control name" placeholder="Ad daxil edin">
+                    </div>
+                    <div class="form-floating">
+                        <textarea class="form-control link" placeholder="Leave a comment here" id="floatingTextarea"
+                            style="min-height: 100px;"></textarea>
+                        <label for="floatingTextarea">Linki əlavə edin...</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bağla</button>
+                    <button type="button" class="btn btn-primary add" data-bs-dismiss="modal">Əlavə et</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+    </script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { getDatabase,set,ref,get,child} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBgoLAQkXS9rH01E7T79Qkt8yMVNGyt9M8",
+            authDomain: "auth-ee7fe.firebaseapp.com",
+            databaseURL: "https://auth-ee7fe-default-rtdb.firebaseio.com",
+            projectId: "auth-ee7fe",
+            storageBucket: "auth-ee7fe.appspot.com",
+            messagingSenderId: "575183431695",
+            appId: "1:575183431695:web:10f44aa657e6787778db7a",
+            measurementId: "G-3J0C2GQKYZ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const nameValue = document.querySelector('.name');
+        const linkValue = document.querySelector('.link');
+        const add = document.querySelector('.add');
+        const pages = document.querySelector('.pages');
+
+        const createElement =(data)=>{
+            const element = `<div class="item col-sm-12 col-lg-4 col-md-6">
+                <img src="https://logos-world.net/wp-content/uploads/2020/02/Canva-Logo.png">
+                <span>${data.name}</span>
+                <a target="_blank" href='${data.link}'><button>Link</button></a>
+            </div>`
+            pages.insertAdjacentHTML('beforeend',element)
+        }
+        
+
+        const setData = (name,link)=>{
+            let time = new Date();
+            let ID = time.getTime();
+            set(ref(database, 'link/'+ID), {
+                name:name,
+                link:link
+            });
+            window.location.href =''
+        }
+
+        add.addEventListener('click',()=>{
+            setData(nameValue.value,linkValue.value);
+            nameValue.value='';
+            linkValue.value='';
+        })
+        
+        const colRef = ref(database)
+
+        get(child(colRef,'link')).then(
+            (snapshot)=>{
+                snapshot.forEach(e=>{
+                    createElement(e.val())
+                })
+            }
+        )
+      </script>
+
+    <script>
+
+    </script>
+</body>
+
+</html>
